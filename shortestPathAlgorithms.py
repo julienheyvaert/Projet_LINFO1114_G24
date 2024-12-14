@@ -31,11 +31,11 @@ def create_graph(cost_matrix, vertices_names):
 
 def main():
     vertices_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 
-                      'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
+                      'I', 'J']
     
     cost_matrix = extract_cost_matrix_csv()
     graph = create_graph(cost_matrix, vertices_names)
-    graph.display_graph()
+    graph.dijkstra('A')
     
 
 main()
