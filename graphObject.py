@@ -65,7 +65,7 @@ class Graph:
         return unvisited_neighbors
 
     def dijkstra_line(self, starting_vertex_name, display = False):
-        distances = []
+        distances_line = []
 
         self.vertices[starting_vertex_name].distance = 0
         unvisited_vertices = list(self.vertices.values())
@@ -95,16 +95,31 @@ class Graph:
         for vertex in self.vertices.values():
             if(display):
                 print(f"Distance from {starting_vertex_name} to {vertex.name} : {vertex.distance}")
-            distances.append(float(vertex.distance))
+            distances_line.append(float(vertex.distance))
             # reset
             vertex.distance = float('inf')
+            vertex.visited = False
         
 
-        return distances
+        return distances_line
 
+    def dijkstra_matrix(self):
+        distances_matrix = []
+        
+        for vertex in self.vertices.values():
+            current_starting_vertex_name = vertex.name
+            current_line = self.dijkstra_line(current_starting_vertex_name)
+            distances_matrix.append(current_line)
 
+        return numpy.array(distances_matrix)
+    
 """
 1. le couurant vertex --> le plus petit, marche aussi pour permier car vertex.distance tous à inf
 2. Reg les voisins de courrant vertex, comparer les dist, si meilleures (new < connue pour ce stade), mettre à jour
---> remettre distances à zero apryès
+--> reset les vertrices
+
+sources
+1. vidéos cours,
+2. https://en.wikipedia.org/wiki/Dijkstra's_algorithm,
+3. cours algo première
 """

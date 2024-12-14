@@ -38,7 +38,13 @@ def main():
     
     cost_matrix = extract_cost_matrix_csv()
     graph = create_graph(cost_matrix, vertices_names)
-    dists = graph.dijkstra_line('F')
-    print(dists)
+    dijkstraA = graph.dijkstra_line('A')
+    print(f"dijkstra A : \n {dijkstraA}")
+
+    dijkstraA = graph.dijkstra_line('G')
+    print(f"dijkstra G : \n {dijkstraA}")
+
+    dijkstra_matrix = graph.dijkstra_matrix()
+    print(f"dijkstra Matrix : \n {dijkstra_matrix}")
 
 main()
