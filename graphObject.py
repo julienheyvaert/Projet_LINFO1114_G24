@@ -4,7 +4,7 @@ class Vertex:
     def __init__(self, name):
         self.name = name
         self.neighbors = []
-        self.distance = numpy.inf
+        self.distance = float('inf')
         self.visited = False
 
     def new_neighbor(self, neighbor_name, neighbor_cost):
@@ -49,7 +49,7 @@ class Graph:
             for cost_index in range(len(cost_matrix[0])):
                 current_cost = cost_matrix[vertice_index][cost_index]
                 
-                if current_cost != numpy.inf and current_cost != 0:
+                if current_cost != float('inf') and current_cost != 0:
                     next_vertice_name = vertices_names_list[cost_index]
                     self.new_edge(current_vertice_name, next_vertice_name, current_cost)
 
@@ -64,7 +64,8 @@ class Graph:
 
         return unvisited_neighbors
 
-    def dijkstra(self, starting_vertex_name):
+    def dijkstra_line(self, starting_vertex_name, display = False):
+        distances = []
 
         self.vertices[starting_vertex_name].distance = 0
         unvisited_vertices = list(self.vertices.values())
@@ -74,7 +75,7 @@ class Graph:
             current_vertex = min(unvisited_vertices, key=lambda vertex: vertex.distance)
             
             # no cooncection, stop
-            if current_vertex.distance == numpy.inf:
+            if current_vertex.distance == float('inf'):
                 break
             
             # current is visited
@@ -92,9 +93,18 @@ class Graph:
                     neighbor_vertex.distance = new_distance
 
         for vertex in self.vertices.values():
-            print(f"Distance from {starting_vertex_name} to {vertex.name} : {vertex.distance}")
+            if(display):
+                print(f"Distance from {starting_vertex_name} to {vertex.name} : {vertex.distance}")
+            distances.append(float(vertex.distance))
+            # reset
+            vertex.distance = float('inf')
+        
+
+        return distances
+
 
 """
 1. le couurant vertex --> le plus petit, marche aussi pour permier car vertex.distance tous à inf
 2. Reg les voisins de courrant vertex, comparer les dist, si meilleures (new < connue pour ce stade), mettre à jour
+--> remettre distances à zero apryès
 """

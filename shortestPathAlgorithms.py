@@ -4,15 +4,18 @@ from graphObject import Graph
 
 def extract_cost_matrix_csv():
     cost_matrix = []
+
     with open('graph.csv', newline='') as csvfile:
         costCSV = csv.reader(csvfile, delimiter=',')
         
         for row in costCSV:
             n_row = []
-            for v in row:
-                if(v == 'inf'):
-                    v = numpy.inf
-                n_row.append(float(v))
+
+            for cost in row:
+                cost = float(cost)
+                if(cost == 1000000000000):
+                    cost = float('inf')
+                n_row.append(cost)
             cost_matrix.append(n_row)
 
     return numpy.array(cost_matrix)
@@ -35,7 +38,7 @@ def main():
     
     cost_matrix = extract_cost_matrix_csv()
     graph = create_graph(cost_matrix, vertices_names)
-    graph.dijkstra('A')
-    
+    dists = graph.dijkstra_line('F')
+    print(dists)
 
 main()
