@@ -113,6 +113,49 @@ class Graph:
 
         return numpy.array(distances_matrix)
     
+     # Bellman-Ford Algorithm
+    def bellman_ford_line(self, start_vertex_name, display=False):
+        vertices_names = self.get_vertices_names()
+        n = len(vertices_names)
+        distances_line = [float('inf')] * n
+
+        # Set the start vertex distance to 0
+        start_index = vertices_names.index(start_vertex_name)
+        distances_line[start_index] = 0
+
+        # Relax edges (n-1) times
+        for n in range(n - 1):
+            for vertex in self.vertices.values():
+                for neighbor_name, neighbor_cost in vertex.neighbors:
+                    u_index = vertices_names.index(vertex.name)
+                    v_index = vertices_names.index(neighbor_name)
+                    if distances_line[u_index] + neighbor_cost < distances_line[v_index]:
+                        distances_line[v_index] = distances_line[u_index] + neighbor_cost
+
+        # Check for negative weight cycles
+        for vertex in self.vertices.values():
+            for neighbor_name, neighbor_cost in vertex.neighbors:
+                u_index = vertices_names.index(vertex.name)
+                v_index = vertices_names.index(neighbor_name)
+                if distances_line[u_index] + neighbor_cost < distances_line[v_index]:
+                    print("Graph contains a negative weight cycle")
+
+        if display:
+            for i, distance in enumerate(distances_line):
+                print(f"Distance from {start_vertex_name} to {vertices_names[i]}: {distance}")
+
+        return distances_line
+
+    def bellman_ford_matrix(self, display=False):
+        distances_matrix = []
+        for vertex in self.vertices.values():
+            distances_line = self.bellman_ford_line(vertex.name, display=False)
+            distances_matrix.append(distances_line)
+
+        distances_matrix = numpy.array(distances_matrix)
+
+        return distances_matrix
+    
 """
 1. le couurant vertex --> le plus petit, marche aussi pour permier car vertex.distance tous à inf
 2. Reg les voisins de courrant vertex, comparer les dist, si meilleures (new < connue pour ce stade), mettre à jour

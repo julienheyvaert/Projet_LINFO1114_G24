@@ -47,4 +47,14 @@ def main():
     dijkstra_matrix = graph.dijkstra_matrix()
     print(f"dijkstra Matrix : \n {dijkstra_matrix}")
 
+
+    bellman_fordA = graph.bellman_ford_line('A')
+    print(f"bellman_ford A : \n {bellman_fordA}")
+
+    bellman_fordA = graph.bellman_ford_line('G')
+    print(f"bellman_ford G : \n {bellman_fordA}")
+
+    bellman_ford_matrix = graph.bellman_ford_matrix()
+    print(f"bellman_ford Matrix : \n {bellman_ford_matrix}")
+
 main()
